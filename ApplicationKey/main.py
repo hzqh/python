@@ -28,7 +28,7 @@ class akmIntime():
     #     Key_ID_2=[01,01,01,01,01,01,01,01,01,01,01,01,01,03,01,04]
          
         #申请量子密钥，为后续应用密钥加密，做储备
-        #qkm.getQkmKey(Qkm_HOST,UserName1,UserTyp,Key_ID_1)
+#        qkm.getQkmKey(Qkm_HOST,UserName1,UserTyp,Key_ID_1)
         #qkm.getQkmKey(Qkm_HOST,UserName2,UserTyp,Key_ID_2)
         #sleep(10)
         #申请创建应用密钥

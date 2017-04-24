@@ -71,20 +71,20 @@ class AdminPacket(object):
         self.userType_flag=userTyp
         self.userName=userName
     
-    def admin(self,s):
+    def admin(self,s,authid):
         req_id = random_int_list(0, 255, 2)                # Request ID 2字节
         print 'first request id : ', req_id       
         user = self.userName                       # 用户名
         userLen = len(user)
         psd='node_child'                           # 用户名长度 10
-        if(user.startswith('node_child')):
-            psd='node_child'
-        elif(user.startswith('node_parent')):
-            psd='node_parent'
-        elif(user.startswith('node_center')):
-            psd='node_center'
-        else:
-            print 'uknown userName '
+#        if(user.startswith('node_child')):
+#            psd='node_child'
+#        elif(user.startswith('node_parent')):
+#            psd='node_parent'
+#        elif(user.startswith('node_center')):
+#            psd='node_center'
+#        else:
+#            print 'uknown userName '
             #sys.exit(1)
         # 密码
         psdSHA256 = psd_sha256(psd)
@@ -93,7 +93,8 @@ class AdminPacket(object):
         
         body = [101] + req_id + [userLen, user, psdLen]
         
-        auth_id = [01] * 16            # 认证密钥ID 16字节
+#        auth_id = [01,01,01,01,01,01,01,01,01,01,01,01,07,00,01,8]           # 认证密钥ID 16字节
+        auth_id = authid
         authKey = [01] * 32             # 认证密钥 32字节
         authKey_hmac256 = hmac_sha256(authKey, req_id)    # 认证密钥ID HMAC-SHA256方式加密
         

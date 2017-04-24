@@ -159,16 +159,16 @@ def clientRun(host_ip,user_name,user_typ,key_id,authid):
     if qkmGet.qkmget(s,ack_key,ack_key_id,user_name)==1:
        d=d+1   
  
-def multiThread(attend_num,clientList):
-
-    threads = []    
-    #�����������̣߳������ȴ�
-    for i in range(attend_num-1):  # create all threads 
-        t = threading.Thread(target=clientRun,args=(Akm_HOST,clientList[i][0],clientList[i][1],clientList[i][2]))
-        threads.append(t)   
-    for i in range(attend_num-1):  # start all threads 
-        threads[i].start()
-##    
+#def multiThread(attend_num,clientList):
+#
+#    threads = []    
+#    #�����������̣߳������ȴ�
+#    for i in range(attend_num-1):  # create all threads 
+#        t = threading.Thread(target=clientRun,args=(Akm_HOST,clientList[i][0],clientList[i][1],clientList[i][2]))
+#        threads.append(t)   
+#    for i in range(attend_num-1):  # start all threads 
+#        threads[i].start()
+###    
     
 if __name__ == '__main__':
 #    attend_num=UserNum
