@@ -79,40 +79,6 @@ def setUserInfo2():
         userinfo[i][4]=ExcelUntil.excel_data_to_list(userinfo[i][4])
     return userinfo
 #
-#def setUserInfo2():
-#    userinfo = ExcelUntil.excel_read_all("D:\\workplace\\PyTest-frame\\data\\userinfo.xls",index_name='Sheet1',startrow = 1,startcol =0) #读取Excel用户信息，读取起始位置startrow = 1,startcol =0
-#    lists=[[] for i in range(len(userinfo))]
-#    for i in range(0,len(userinfo)):
-#        lists[i].append(KeyID)    
-#    return lists
-#        
-
-#def setUserInfo2():
-#    
-#    try:  
-#        data = xlrd.open_workbook("D:\\workplace\\PyTest-frame\\data\\userinfo.xls")
-#        table = data.sheets()[0] 
-#        nrows = table.nrows
-#        ncols = table.ncols
-#        
-#        lists=[[] for i in range(nrows)]
-#        for row in range(0,table.nrows):
-#            userID=int(table.cell(row,0).value)
-#            userName=table.cell(row,1).value 
-#            userTyp=int(table.cell(row,2).value)
-#            keyID=table.cell(row,3).value 
-#            #print 'text', userID,  userName, userTyp,keyID
-#            lists[row].append(userID)
-#            lists[row].append(userName)
-#            lists[row].append(userTyp)
-#            lists[row].append(keyID) 
-#        #for row in range(0,table.nrows):
-#            #for col in range(0,table.ncols):
-#               # print 'list %d %d'%(row,col),lists[row][col]
-#        return  lists             
-#    except Exception,e:  
-#        print str(e)
-
     
 def admin_thread():
 
