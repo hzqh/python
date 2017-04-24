@@ -10,11 +10,8 @@ import  xdrlib ,sys
 import xlrd
 import unicodedata
 
-
-
 def open_excel(file= r'C:\Users\lenovo\Desktop\testcase.xlsx'):
     try:
-        
 #        data = xlrd.open_workbook(file)
         xlrd.Book.encoding = "gbk"
         data = xlrd.open_workbook(file)
