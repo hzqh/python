@@ -65,25 +65,7 @@ def setUserInfo():
         userinfo[i][2] = int(userinfo[i][2])
         userinfo[i][3]=ExcelUntil.excel_data_to_list(userinfo[i][3])
         userinfo[i][4]=ExcelUntil.excel_data_to_list(userinfo[i][4])
-        
-#        userinfo[i][3] = unicodedata.normalize('NFKD', userinfo[i][3]).encode('utf-8', 'ignore')
-#        userinfo[i][3] = userinfo[i][3].replace('[', '').replace(']', '')
-#        userinfo[i][3] = userinfo[i][3].split(',')
-#        
-#        userinfo[i][4] = unicodedata.normalize('NFKD', userinfo[i][4]).encode('utf-8', 'ignore')
-#        userinfo[i][4] = userinfo[i][4].replace('[', '').replace(']', '')
-#        userinfo[i][4] = userinfo[i][4].split(',')
-#        files_List = []
-#        for j in range(len(userinfo[i][3])):
-#            userinfo[i][3][j] = userinfo[i][3][j].replace("'", '')
-#            userinfo[i][3][j] = int(userinfo[i][3][j])
-#            userinfo[i][4][j] = userinfo[i][4][j].replace("'", '')
-#            userinfo[i][4][j] = int(userinfo[i][4][j])
-#            files_List.append(userinfo[i][3][j])
-##            print type(userinfo[i][3][j])
-#        print files_List
-     
-#        userinfo[i][3] = lists[i]
+    
     return userinfo
 #
 #def setUserInfo2():
