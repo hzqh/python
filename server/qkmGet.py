@@ -110,7 +110,7 @@ def qkmget(s,ack_key,ack_key_id,client_name):
     print'Specified= ',req_specified
     print'User Name Length= ',len(req_user_name)
     print'User Name= ',req_user_name
-    print'Key ID List= ',req_key_id_list
+#    print'Key ID List= ',req_key_id_list
     print'************ End *************'
     
     try: 
@@ -215,6 +215,7 @@ def qkmget(s,ack_key,ack_key_id,client_name):
             print'failed'
     else:
         print '*****req failed***** and status is ',rc_status
+        
         
         
         

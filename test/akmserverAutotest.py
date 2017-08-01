@@ -10,11 +10,9 @@ import unittest
 from ApplicationKey import main1
 
 
-
 class autoTest(unittest.TestCase):   
     def setUp(self):
-#        self.seq = range(10)
-        
+#        self.seq = range(10)        
         print '---------------------------------------------------- -----------AT用例开始---------------------------------------------------'
 
     def test_akmgetNotIntime(self):

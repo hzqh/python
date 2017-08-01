@@ -26,7 +26,7 @@ import unicodedata
 global Akm_HOST
 global Qkm_HOST
 #Qkm_HOST='192.168.91.84'
-Qkm_HOST='192.168.94.200'
+Qkm_HOST='192.168.94.201'
 #Qkm_HOST='192.168.126.132'
 remote_user_id=7000002
 Akm_HOST='192.168.91.183'
@@ -57,7 +57,7 @@ d=0
 
 
 def setUserInfo():
-    userinfo = ExcelUntil.excel_read_all("D:\\workplace\\PyTest-frame\\data\\userinfo5.xls",index_name='Sheet1',startrow = 1,startcol =0) #读取Excel用户信息，读取起始位置startrow = 1,startcol =0
+    userinfo = ExcelUntil.excel_read_all("D:\\workplace\\PyTest-frame\\data\\userinfo1.xls",index_name='Sheet1',startrow = 1,startcol =0) #读取Excel用户信息，读取起始位置startrow = 1,startcol =0
     lists=[[] for i in range(len(userinfo))]
     for i in range(0,len(userinfo)):
         userinfo[i][0] = int(userinfo[i][0])
@@ -154,7 +154,7 @@ def clientRun(host_ip,user_name,user_typ,key_id,authid):
         
     ack_key=admin_packet.get_sess_key()
     ack_key_id=admin_packet.get_sess_key_id()
-    time.sleep(50)
+#    time.sleep(50)
 #    qkmApply.qkmapply(s,ack_key,ack_key_id,user_name) 
     if qkmGet.qkmget(s,ack_key,ack_key_id,user_name)==1:
        d=d+1   

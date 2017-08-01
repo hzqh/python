@@ -119,25 +119,70 @@ class Qkmget():
         print'Key ID List= ',req_key_id_list
         print'************ End *************'
         
+#        try: 
+#            while True:
+#                print 'in while receive rc_packet'
+#                data = s.recv(BUFSIZE)
+#                print '--recive rc_packet data: ',data
+#                print '--recive rc_packet data: ',len(data)
+#                
+#                if len(data) >= 8:
+#                    break 
+#        except socket.error, e:
+#            print "Error receive data: %s" %e
+#            sys.exit(1)
+#        print '*********Data',binascii.hexlify(data)
+#        recvData=data
+#        rc_packet=rcPacket.RecvPacket()
+#        rc_packet.set_sess_key(ack_key)
+#        rc_packet.unpack(recvData)
+#        rc_status=rc_packet.getResult()
+#        print 'rc_status',rc_status
+
         try: 
             while True:
-                print 'in while receive rc_packet'
+                print 'in while receive rc_packet1'
+    #            rc_msg_typ=rc_packet.get_msg_typ()
                 data = s.recv(BUFSIZE)
-                print '--recive rc_packet data: ',data
-                print '--recive rc_packet data: ',len(data)
-                
+                recvData=data
+                rc_packet=rcPacket.RecvPacket()
+                rc_packet.set_sess_key(ack_key)
+                while len(recvData) != 532:                
+                    s.send(req_packet_pack)
+                    s.settimeout(20)                                
+                    try:                     
+                        while True:                       
+                            data = s.recv(BUFSIZE)
+                            recvData=data
+                            rc_packet=rcPacket.RecvPacket()
+                            rc_packet.set_sess_key(ack_key)
+    #                        print '--recive rc_packet data: ',data
+    #                        print '--recive rc_packet data: ',len(data)                
+                            if len(data) >= 8:                                                      
+                                break 
+                    except Exception, e:
+                        print "Error receive data1: %s" %e,Exception
+                        sys.exit(1) 
+                rc_packet.unpack(recvData)                                                                     
+                rc_msg_typ=rc_packet.get_msg_typ()
+                if rc_msg_typ != 126:                
+                    print '-----其他报文类型-----',rc_msg_typ
+                    break
+                print '--recive rc_packet data1: ',data
+                print '--recive rc_packet data1: ',len(data)
+    #            if len(data)==0:
+    #                break                        
                 if len(data) >= 8:
                     break 
         except socket.error, e:
             print "Error receive data: %s" %e
             sys.exit(1)
-        print '*********Data',binascii.hexlify(data)
-        recvData=data
-        rc_packet=rcPacket.RecvPacket()
-        rc_packet.set_sess_key(ack_key)
-        rc_packet.unpack(recvData)
+    #    print '*********Data',binascii.hexlify(data)
+    #    recvData=data
+    #    rc_packet=rcPacket.RecvPacket()
+    #    rc_packet.set_sess_key(ack_key)
+    #    rc_packet.unpack(recvData)
         rc_status=rc_packet.getResult()
-        print 'rc_status',rc_status
         if rc_status==0:      
             rc_key_id_list=rc_packet.get_key_id_list()
             rc_msg_typ=rc_packet.get_msg_typ()
@@ -217,25 +262,70 @@ class Qkmget():
         print'User Name= ',req_user_name
         print'Key ID List= ',rc_key_id_list
         print'************ End *************'
+#        try: 
+#            while True:
+#                print 'in while receive rc_packet'
+#                data = s.recv(BUFSIZE)
+#                print '--recive rc_packet data: ',data
+#                print '--recive rc_packet data: ',len(data)
+#                 
+#                if len(data) >= 8:
+#                    break 
+#        except socket.error, e:
+#            print "Error receive data: %s" %e
+#            sys.exit(1)
+#        print '*********Data',binascii.hexlify(data)
+#        recvData=data
+#        rc_packet=rcPacket.RecvPacket()
+#        rc_packet.set_sess_key(ack_key)
+#        rc_packet.unpack(recvData)
+#        rc_status=rc_packet.getResult()
+#        print 'rc_status',rc_status
+
         try: 
             while True:
-                print 'in while receive rc_packet'
+                print 'in while receive rc_packet1'
+    #            rc_msg_typ=rc_packet.get_msg_typ()
                 data = s.recv(BUFSIZE)
-                print '--recive rc_packet data: ',data
-                print '--recive rc_packet data: ',len(data)
-                 
+                recvData=data
+                rc_packet=rcPacket.RecvPacket()
+                rc_packet.set_sess_key(ack_key)
+                while len(recvData) != 532:                
+                    s.send(req_packet_pack)
+                    s.settimeout(20)                                
+                    try:                     
+                        while True:                       
+                            data = s.recv(BUFSIZE)
+                            recvData=data
+                            rc_packet=rcPacket.RecvPacket()
+                            rc_packet.set_sess_key(ack_key)
+    #                        print '--recive rc_packet data: ',data
+    #                        print '--recive rc_packet data: ',len(data)                
+                            if len(data) >= 8:                                                      
+                                break 
+                    except Exception, e:
+                        print "Error receive data1: %s" %e,Exception
+                        sys.exit(1) 
+                rc_packet.unpack(recvData)                                                                     
+                rc_msg_typ=rc_packet.get_msg_typ()
+                if rc_msg_typ != 126:                
+                    print '-----其他报文类型-----',rc_msg_typ
+                    break
+                print '--recive rc_packet data1: ',data
+                print '--recive rc_packet data1: ',len(data)
+    #            if len(data)==0:
+    #                break                        
                 if len(data) >= 8:
                     break 
         except socket.error, e:
             print "Error receive data: %s" %e
             sys.exit(1)
-        print '*********Data',binascii.hexlify(data)
-        recvData=data
-        rc_packet=rcPacket.RecvPacket()
-        rc_packet.set_sess_key(ack_key)
-        rc_packet.unpack(recvData)
+    #    print '*********Data',binascii.hexlify(data)
+    #    recvData=data
+    #    rc_packet=rcPacket.RecvPacket()
+    #    rc_packet.set_sess_key(ack_key)
+    #    rc_packet.unpack(recvData)
         rc_status=rc_packet.getResult()
-        print 'rc_status',rc_status
         if rc_status==0:      
             rc_key_id_list=rc_packet.get_key_id_list()
             rc_msg_typ=rc_packet.get_msg_typ()

@@ -5,35 +5,25 @@ import binascii
 import ctypes
 import socket
 import time
-import hashlib
-import hmac
-import random
-import array
-from email.base64mime import body_decode
-from Crypto.Cipher import AES
-import reqPacket,rcPacket,ackPacket
-import qkmApply
-import qkmGet
-from commonUntils import adminPacket
+
 from commonUntils import ExcelUntil
-#import tools
-import datetime,time
-#import adminPacket
 from commonUntils import adminPacket
-from commonUntils import adminPacket
+#from commonUntils import adminPacket
 import threading
-import unicodedata
+#import unicodedata
 import akm
 import qkm
 
 global Akm_HOST
 global Qkm_HOST
 #Qkm_HOST='192.168.91.84'
-Qkm_HOST='192.168.94.201'
+#Qkm_HOST='192.168.94.201'
 Akm_HOST='192.168.94.220'
+
+Qkm_HOST='192.168.91.112'
+#Akm_HOST='192.168.91.113'
 #Qkm_HOST='192.168.126.132'
 remote_user_id=7000002
-Akm_HOST='192.168.91.183'
 BUFSIZE = 1024 
 PORT = 5530
 UserId_0 = 7000020
@@ -61,7 +51,7 @@ d=0
 
 
 def setUserInfo1():
-    userinfo = ExcelUntil.excel_read_all("D:\\workplace\\PyTest-frame\\data\\userinfo1.xls",index_name='Sheet1',startrow = 1,startcol =0) #读取Excel用户信息，读取起始位置startrow = 1,startcol =0
+    userinfo = ExcelUntil.excel_read_all("D:\\workplace\\PyTest-frame\\data\\userinfo8.xls",index_name='Sheet1',startrow = 1,startcol =0) #读取Excel用户信息，读取起始位置startrow = 1,startcol =0
     lists=[[] for i in range(len(userinfo))]
     for i in range(0,len(userinfo)):
         userinfo[i][0] = int(userinfo[i][0])
@@ -70,33 +60,18 @@ def setUserInfo1():
         userinfo[i][3]=ExcelUntil.excel_data_to_list(userinfo[i][3])
         userinfo[i][4]=ExcelUntil.excel_data_to_list(userinfo[i][4])
     return userinfo
-
-def setUserInfo2():
-    userinfo = ExcelUntil.excel_read_all("D:\\workplace\\PyTest-frame\\data\\userinfo6.xls",index_name='Sheet1',startrow = 1,startcol =0) #读取Excel用户信息，读取起始位置startrow = 1,startcol =0
-    lists=[[] for i in range(len(userinfo))]
-    for i in range(0,len(userinfo)):
-        userinfo[i][0] = int(userinfo[i][0])
-        userinfo[i][1] = str(userinfo[i][1])
-        userinfo[i][2] = int(userinfo[i][2])
-        userinfo[i][3]=ExcelUntil.excel_data_to_list(userinfo[i][3])
-        userinfo[i][4]=ExcelUntil.excel_data_to_list(userinfo[i][4])
-    return userinfo
-#
     
 def admin_thread():
 
     clientList1=setUserInfo1()
-    clientList2=setUserInfo2()
-#    clientList1=setUserInfo2()
-    #for i in range(0,adminNum):        
+           
     print 'starting at:', time.ctime() 
 
     threads = [] 
-#    nloops = range(adminNum) 
   
     for i in range(0,len(clientList1)):  # create all threads 
        
-        t = threading.Thread(target=clientRun,args=(Akm_HOST,clientList1[i][1],clientList1[i][2],clientList1[i][3],clientList1[i][4],clientList2[i][1],clientList2[i][2],clientList2[i][3]))        
+        t = threading.Thread(target=clientRun,args=(Akm_HOST,clientList1[i][1],clientList1[i][2],clientList1[i][3],clientList1[i][4]))        
 #        t = threading.Thread(target=clientRun,args=(Qkm_HOST,UserName,UserTyp,KeyID))
         threads.append(t) 
           
@@ -109,7 +84,7 @@ def admin_thread():
     print 'all DONE at:', time.ctime()   
 #
 ##�ͻ��˽����ȴ��������������ͱ���    
-def clientRun(host_ip,user_name1,user_typ1,key_id1,authid1,user_name2,user_typ2,key_id2,authid2):
+def clientRun(host_ip,user_name1,user_typ1,key_id1,authid1):
 #    print '---clientRun----key_id:',key_id
 #    print '---clientRun----authid:',authid
     print 'start loop', user_name1, 'at:', time.ctime() 
@@ -132,18 +107,26 @@ def clientRun(host_ip,user_name1,user_typ1,key_id1,authid1,user_name2,user_typ2,
         
     ack_key=admin_packet.get_sess_key()
     ack_key_id=admin_packet.get_sess_key_id()
-    qkm.getQkmKey(Qkm_HOST,UserName1,user_typ1,key_id1,authid1)#接入认证、获取量子密钥
-    time.sleep(5)
+    
+#    qkm.getQkmKey(Qkm_HOST,user_name1,user_typ1,key_id1,authid1)#接入认证、获取量子密钥
+
+    time.sleep(50)
 #    qkmApply.qkmapply(s,ack_key,ack_key_id,user_name) 
 #    if qkmGet.qkmget(s,ack_key,ack_key_id,user_name)==1:
 #       d=d+1   
 #   ' akm.obtAkmKey(Akm_HOST,user_name1, user_typ1,key_id1,akm.getAkmKey(Akm_HOST,user_name2,user_typ2,key_id2))'
     
-    akm.obtAkmKey(s,ack_key,ack_key_id,user_name1,akm.getAkmKey(Akm_HOST,user_name2,user_typ2,key_id2,authid2))
- 
+#    key_id_list = akm.getAkmKey(Akm_HOST,user_name1,user_typ1,key_id1,authid1)
+    key_id_list = akm.getAkmKey(s,ack_key,ack_key_id,user_name1)
+#    key_id_list = [5, 151, 53, 42, 206, 212, 74, 56, 159, 126, 178, 159, 212, 46, 10, 33]
+    
+    
+#    if akm.obtAkmKey(s,ack_key,ack_key_id,user_name1,key_id_list)==1:
+#        d=d+1
+#    akm.obtAkmKey(s,ack_key,ack_key_id,user_name1,akm.getAkmKey(s,ack_key,ack_key_id,user_name1))
     
 if __name__ == '__main__':
-#    attend_num=UserNum
+#    attend_num=UserNum 
 #    clientList=setUserInfo() 
     admin_thread()
     print '----totalclient----',k

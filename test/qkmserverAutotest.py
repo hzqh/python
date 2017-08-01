@@ -53,6 +53,23 @@ class autoTest(unittest.TestCase):
 #        test.start()
         self.assertEqual( test.start(), 1)
         print '-------------------------------------------------------------qkm从中心密钥获取用例结束--------------------------------------------------------' 
+        
+#    def test_qkmdianduidian1(self):
+#        # make sure the shuffled sequence does not lose any elements
+#        print '--------------------------------------------------------------qkm点对点-对端slave用例开始------------------------------------------------------'       
+#        test = qkmApply2.Qkmapply()
+##        test.start()
+#        self.assertEqual( test.start(), 1)
+#        print '--------------------------------------------------------------qkm点对点-对端slave用例结束-------------------------------------------------------' 
+#        
+#    def test_qkmdianduidian2(self):
+#        # make sure the shuffled sequence does not lose any elements 
+#        print '--------------------------------------------------------------qkm点对点-对端master用例开始-------------------------------------------------------'   
+#        test = qkmGet2.Qkmget()
+##        test.start()
+#        self.assertEqual( test.start(), 1)
+#        print '-------------------------------------------------------------qkm点对点-对端master用例结束--------------------------------------------------------' 
+
 
 #
 #        

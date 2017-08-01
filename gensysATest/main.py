@@ -28,6 +28,7 @@ class Gensys():
         cf = ConfigParser.ConfigParser()
         cf.read('D:/workplace/PyTest-frame/qtec.conf')   
         host = eval(cf.get('node-child', 'host')) 
+#        host = '192.168.94.200'
         BUFSIZE = eval(cf.get('node-child', 'BUFSIZE')) 
         port = eval(cf.get('node-child', 'port'))
         hostID = eval(cf.get('node-child', 'hostID'))

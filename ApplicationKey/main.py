@@ -2,7 +2,7 @@
 
 import akm
 import akmRcPacket
-from time import sleep
+#from time import sleep
 
 class akmIntime():
     def start(self):

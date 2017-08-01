@@ -10,22 +10,23 @@ import time
 BUFSIZE=1024
 
 #应用密钥，根据传入的ip，username，user_typ,key_id，接入host，并申请应用密钥
-def getAkmKey(host_ip,user_name,user_typ,key_id,authid2): 
-    host = host_ip
-    BUFSIZE = 4096 
-    port = 5530
-    try: 
-        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    except socket.error, msg:
-        print '---line 110---Failed to create socket.Error code: '+ str(msg[0]) + ', Error message: ' + msg[1]
-        sys.exit()
-    print '---line 112--- Socket create'
-    s.connect((host, port))    
-    admin_packet=adminPacket.AdminPacket(user_name,user_typ,key_id)
-    admin_packet.admin(s,authid2)
-    ack_key=admin_packet.get_sess_key()
-    ack_key_id=admin_packet.get_sess_key_id()
-    print '******ack_key',ack_key
+#def getAkmKey(host_ip,user_name,user_typ,key_id,authid2): 
+def getAkmKey(s,ack_key,ack_key_id,client_name): 
+#    host = host_ip
+#    BUFSIZE = 4096 
+#    port = 5530
+#    try: 
+#        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+#    except socket.error, msg:
+#        print '---line 110---Failed to create socket.Error code: '+ str(msg[0]) + ', Error message: ' + msg[1]
+#        sys.exit()
+#    print '---line 112--- Socket create'
+#    s.connect((host, port))    
+#    admin_packet=adminPacket.AdminPacket(user_name,user_typ,key_id)
+#    admin_packet.admin(s,authid2)
+#    ack_key=admin_packet.get_sess_key()
+#    ack_key_id=admin_packet.get_sess_key_id()
+#    print '******ack_key',ack_key
     #time.sleep(60)
     #generate part   
     req_packet=akmReqPacket.ReqPacket()
@@ -43,33 +44,33 @@ def getAkmKey(host_ip,user_name,user_typ,key_id,authid2):
     req_key_typ=1
     req_save=1
     req_save_time=65535
-    req_key_num=1
+    req_key_num=10
     req_key_len=32
     req_automatic=0
     req_auto_rate=0
     # set attend information to variable
-    req_user_name=user_name
-    req_attend_num=19
-    req_attend_name_1='client_wm2'
-    req_attend_name_2='client_wm3'
-    req_attend_name_3='client_lq6'
-    req_attend_name_4='client_lq7'
-    req_attend_name_5='client_lq8'
-    req_attend_name_6='client_lq9'
-    req_attend_name_7='client_lq10'
-    req_attend_name_8='client_lq11'
-    req_attend_name_9='client_lq12'
-    req_attend_name_10='client_lq13'
-    req_attend_name_11='client_lq14'
-    req_attend_name_12='client_lq15'
-    req_attend_name_13='client_lq16'
-    req_attend_name_14='client_lq17'
-    req_attend_name_15='client_lq18'
-    req_attend_name_16='client_lq19'
-    req_attend_name_17='client_lq20'
-    req_attend_name_18='client_lq21'
-    req_attend_name_19='client_lq22'
-    req_attend_name_20='client_lq23'
+    req_user_name=client_name
+    req_attend_num=2
+    req_attend_name_1='client_qh980'
+    req_attend_name_2='client_qh981'
+    req_attend_name_3='client_qh982'
+    req_attend_name_4='client_qh983'
+    req_attend_name_5='client_qh984'
+    req_attend_name_6='client_qh985'
+    req_attend_name_7='client_qh985'
+    req_attend_name_8='client_qh987'
+    req_attend_name_9='client_qh988'
+    req_attend_name_10='client_qh989'
+    req_attend_name_11='client_qh990'
+    req_attend_name_12='client_qh991'
+    req_attend_name_13='client_qh992'
+    req_attend_name_14='client_qh993'
+    req_attend_name_15='client_qh994'
+    req_attend_name_16='client_qh995'
+    req_attend_name_17='client_qh996'
+    req_attend_name_18='client_qh997'
+    req_attend_name_19='client_qh998'
+    req_attend_name_20='client_qh999'
     # set sess information to variable
     req_sess_typ=1
     req_sess_attend_num=20
@@ -146,7 +147,6 @@ def getAkmKey(host_ip,user_name,user_typ,key_id,authid2):
     s.settimeout(20)
     
     print 'send success'
- 
     
     try: 
         while True:
@@ -168,6 +168,11 @@ def getAkmKey(host_ip,user_name,user_typ,key_id,authid2):
     rc_packet.unpack(recvData)
     rc_status=rc_packet.getResult()
     print 'rc_status',rc_status
+    
+    
+    
+    
+    
     if rc_status==0:      
         rc_msg_typ=rc_packet.get_msg_typ()
         rc_req_id=rc_packet.get_req_id()
@@ -183,7 +188,7 @@ def getAkmKey(host_ip,user_name,user_typ,key_id,authid2):
         
         
         return   rc_key_id_list   
-    
+        
     
         if (rc_msg_typ == 120  and  rc_req_id == req_reqid):
             print '*****req success***** and status is：申请创建应用密钥反馈报文 ',rc_status         
@@ -243,6 +248,7 @@ def obtAkmKey(s,ack_key,ack_key_id,client_name,key_id_list):
     req_packet.set_userName(req_user_name)
     req_packet.set_userName_len(req_user_name_len)
     req_packet.set_key_id_list(req_key_id_list)
+    print '-------------------------------------------------------------------',req_key_id_list
   
     req_packet_pack=req_packet.get_packet()
     print '****************',binascii.hexlify(req_packet_pack)
@@ -271,6 +277,10 @@ def obtAkmKey(s,ack_key,ack_key_id,client_name,key_id_list):
     rc_packet.unpack(recvData)
     rc_status=rc_packet.getResult()
     print 'rc_status',rc_status
+#    
+#    
+    
+    
     if rc_status==0:      
         rc_msg_typ=rc_packet.get_msg_typ()
         rc_req_id=rc_packet.get_req_id()
@@ -281,11 +291,11 @@ def obtAkmKey(s,ack_key,ack_key_id,client_name,key_id_list):
         print 'rc_key_id_list',rc_key_id_list
         print 'rc_key_list',rc_key_list
         print 'rc_msg_typ',rc_msg_typ
-        print 'rc_req_id',rc_req_id      
+        print 'rc_req_id1',rc_req_id      
         if (rc_msg_typ == 122  and  rc_req_id == req_reqid):
-            return 1
+#            return 1
             print '*****req success***** and status is:申请获取应用密钥 ',rc_status
-            
+            return 1
           
         else:
             '#-------------something is not same with recvData-----------------------#'

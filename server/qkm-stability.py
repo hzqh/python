@@ -27,9 +27,9 @@ import unicodedata
 
 global Akm_HOST
 global Qkm_HOST
-#Qkm_HOST='192.168.126.131'
+Qkm_HOST='192.168.126.131'
 #Qkm_HOST='192.168.91.85'
-Qkm_HOST='192.168.94.201'
+#Qkm_HOST='192.168.94.201'
 remote_user_id=7000002
 Akm_HOST='192.168.91.183'
 BUFSIZE = 1024 
@@ -64,62 +64,7 @@ def setUserInfo():
         userinfo[i][3]=ExcelUntil.excel_data_to_list(userinfo[i][3])
         userinfo[i][4]=ExcelUntil.excel_data_to_list(userinfo[i][4])
         
-#    print  type(userinfo[i][3])
-#        userinfo[i][3] = unicodedata.normalize('NFKD', userinfo[i][3]).encode('utf-8', 'ignore')
-#        userinfo[i][3] = userinfo[i][3].replace('[', '').replace(']', '')
-#        userinfo[i][3] = userinfo[i][3].split(',')
-#        
-#        userinfo[i][4] = unicodedata.normalize('NFKD', userinfo[i][4]).encode('utf-8', 'ignore')
-#        userinfo[i][4] = userinfo[i][4].replace('[', '').replace(']', '')
-#        userinfo[i][4] = userinfo[i][4].split(',')
-#        files_List = []
-#        for j in range(len(userinfo[i][3])):
-#            userinfo[i][3][j] = userinfo[i][3][j].replace("'", '')
-#            userinfo[i][3][j] = int(userinfo[i][3][j])
-#            userinfo[i][4][j] = userinfo[i][4][j].replace("'", '')
-#            userinfo[i][4][j] = int(userinfo[i][4][j])
-#            files_List.append(userinfo[i][3][j])
-#        print type(userinfo[i][3])
-#        print files_List
-#     
-#        userinfo[i][3] = lists[i]
-#    print  type(userinfo[i][3])
-#    print userinfo
     return userinfo
-#
-#def setUserInfo2():
-#    userinfo = ExcelUntil.excel_read_all("D:\\workplace\\PyTest-frame\\data\\userinfo.xls",index_name='Sheet1',startrow = 1,startcol =0) #读取Excel用户信息，读取起始位置startrow = 1,startcol =0
-#    lists=[[] for i in range(len(userinfo))] 
-#    for i in range(0,len(userinfo)):
-#        lists[i].append(KeyID)    
-#    return lists
-#        
-
-#def setUserInfo2():
-#    
-#    try:  
-#        data = xlrd.open_workbook("D:\\workplace\\PyTest-frame\\data\\userinfo.xls")
-#        table = data.sheets()[0] 
-#        nrows = table.nrows
-#        ncols = table.ncols
-#        
-#        lists=[[] for i in range(nrows)]
-#        for row in range(0,table.nrows):
-#            userID=int(table.cell(row,0).value)
-#            userName=table.cell(row,1).value 
-#            userTyp=int(table.cell(row,2).value)
-#            keyID=table.cell(row,3).value 
-#            #print 'text', userID,  userName, userTyp,keyID
-#            lists[row].append(userID)
-#            lists[row].append(userName)
-#            lists[row].append(userTyp)
-#            lists[row].append(keyID) 
-#        #for row in range(0,table.nrows):
-#            #for col in range(0,table.ncols):
-#               # print 'list %d %d'%(row,col),lists[row][col]
-#        return  lists             
-#    except Exception,e:  
-#        print str(e)
 
     
 def admin_thread():
@@ -169,8 +114,8 @@ def clientRun(host_ip,user_name,user_typ,key_id,authid):
         
         
 #    qkmApply.qkmapply(s,ack_key,ack_key_id,user_name)
-    qkmGet.qkmget(s,ack_key,ack_key_id,user_name) 
-#    dianduidian.qkmapply(s,ack_key,ack_key_id,user_name)   
+#    qkmGet.qkmget(s,ack_key,ack_key_id,user_name) 
+    dianduidian.qkmapply(s,ack_key,ack_key_id,user_name)   
   
          
 def multiThread(attend_num,clientList):

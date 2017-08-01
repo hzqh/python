@@ -111,14 +111,14 @@ class autoTest(unittest.TestCase):
         self.assertEqual( test.start(), 1)
         print '-------------------------------------------------------------qkm从中心密钥获取用例结束--------------------------------------------------------' 
 #
-    def test_akmgetNotIntime(self):
-        # make sure the shuffled sequence does not lose any elements 
-        print '-----------------------------------------------------------Akm密钥获取非实时用例开始------------------------------------------------------' 
-        global expect        
-        test = main1.akmIntime()
-#        test.start()
-        self.assertEqual( test.start(), 1)
-        print '-----------------------------------------------------------Akm密钥获取非实时用例结束------------------------------------------------------' 
+#    def test_akmgetNotIntime(self):
+#        # make sure the shuffled sequence does not lose any elements 
+#        print '-----------------------------------------------------------Akm密钥获取非实时用例开始------------------------------------------------------' 
+#        global expect        
+#        test = main1.akmIntime()
+##        test.start()
+#        self.assertEqual( test.start(), 1)
+#        print '-----------------------------------------------------------Akm密钥获取非实时用例结束------------------------------------------------------' 
         
     def tearDown(self):
         print '----------------------------------------------------------------AT用例结束------------------------------------------------------------'
