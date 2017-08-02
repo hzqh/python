@@ -47,6 +47,7 @@ class autoTest(unittest.TestCase):
         self.assertEqual( test.start(), 1)
         print '------------------------------------------------------------接入认证-qkm本地认证-用例结束----------------------------------------------'
         
+        
     def test_access2(self):
         # make sure the shuffled sequence does not lose any elements
         cf = ConfigParser.ConfigParser()
