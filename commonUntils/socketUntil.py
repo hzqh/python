@@ -31,6 +31,4 @@ def RecvN1(socket, n):
 
         totalRecved = len(totalContent)
 
-
-
     return totalContent

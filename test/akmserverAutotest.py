@@ -7,7 +7,7 @@ Project:执行akm秘钥服务用例
 '''
 import random
 import unittest
-from ApplicationKey import main1
+from akmATest import main1
 
 
 class autoTest(unittest.TestCase):   

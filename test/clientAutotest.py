@@ -10,7 +10,6 @@ import unittest
 from clientTest import ClientAES1
 
 from gensysATest import main
-from ApplicationKey import main1
 
 #import ClientAES1
 import MySQLdb

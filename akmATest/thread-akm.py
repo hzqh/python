@@ -5,33 +5,25 @@ import binascii
 import ctypes
 import socket
 import time
-import hashlib
-import hmac
-import random
-import array
-from email.base64mime import body_decode
-from Crypto.Cipher import AES
-import reqPacket,rcPacket,ackPacket
-import qkmApply
-import qkmApply1
-import qkmGet
-import dianduidian
-from commonUntils import adminPacket
+
 from commonUntils import ExcelUntil
-#import tools
-import datetime,time
-#import adminPacket
 from commonUntils import adminPacket
+#from commonUntils import adminPacket
 import threading
-import unicodedata
+#import unicodedata
+import akm
+import qkm
 
 global Akm_HOST
 global Qkm_HOST
-Qkm_HOST='192.168.126.131'
-#Qkm_HOST='192.168.91.85'
+#Qkm_HOST='192.168.91.84'
 #Qkm_HOST='192.168.94.201'
+Akm_HOST='192.168.94.220'
+
+Qkm_HOST='192.168.91.112'
+#Akm_HOST='192.168.91.113'
+#Qkm_HOST='192.168.126.132'
 remote_user_id=7000002
-Akm_HOST='192.168.91.183'
 BUFSIZE = 1024 
 PORT = 5530
 UserId_0 = 7000020
@@ -54,7 +46,11 @@ UserName = 'client_qh001'
 UserTyp= 1
 KeyID = [01,01,01,01,01,01,01,01,01,01,01,01,01,07,01,04]
 
-def setUserInfo():
+k=0
+d=0
+
+
+def setUserInfo1():
     userinfo = ExcelUntil.excel_read_all("D:\\workplace\\PyTest-frame\\data\\userinfo1.xls",index_name='Sheet1',startrow = 1,startcol =0) #读取Excel用户信息，读取起始位置startrow = 1,startcol =0
     lists=[[] for i in range(len(userinfo))]
     for i in range(0,len(userinfo)):
@@ -63,40 +59,39 @@ def setUserInfo():
         userinfo[i][2] = int(userinfo[i][2])
         userinfo[i][3]=ExcelUntil.excel_data_to_list(userinfo[i][3])
         userinfo[i][4]=ExcelUntil.excel_data_to_list(userinfo[i][4])
-        
     return userinfo
-
     
 def admin_thread():
 
-    clientList=setUserInfo()
-#    clientList1=setUserInfo2()
-    #for i in range(0,adminNum):        
+    clientList1=setUserInfo1()
+           
     print 'starting at:', time.ctime() 
-    threads = [] 
-#    nloops = range(adminNum) 
-  
-    for i in range(0,len(clientList)):  # create all threads 
 
-        t = threading.Thread(target=clientRun,args=(Qkm_HOST,clientList[i][1],clientList[i][2],clientList[i][3],clientList[i][4]))
+    threads = [] 
+  
+    for i in range(0,len(clientList1)):  # create all threads 
+       
+        t = threading.Thread(target=clientRun,args=(Akm_HOST,clientList1[i][1],clientList1[i][2],clientList1[i][3],clientList1[i][4]))        
 #        t = threading.Thread(target=clientRun,args=(Qkm_HOST,UserName,UserTyp,KeyID))
         threads.append(t) 
-  
-    for i in range(0,len(clientList)):  # start all threads 
+          
+    for i in range(0,len(clientList1)):  # start all threads 
         threads[i].start() 
   
-    for i in range(0,len(clientList)):  # wait for completion 
+    for i in range(0,len(clientList1)):  # wait for completion 
         threads[i].join() 
   
     print 'all DONE at:', time.ctime()   
 #
 ##�ͻ��˽����ȴ��������������ͱ���    
-def clientRun(host_ip,user_name,user_typ,key_id,authid):
+def clientRun(host_ip,user_name1,user_typ1,key_id1,authid1):
 #    print '---clientRun----key_id:',key_id
-    print '---clientRun----authid:',authid
-    print 'start loop', user_name, 'at:', time.ctime() 
+#    print '---clientRun----authid:',authid
+    print 'start loop', user_name1, 'at:', time.ctime() 
     host = host_ip
     port = PORT
+    global k
+    global d
     try:
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     except socket.error, msg:
@@ -105,37 +100,37 @@ def clientRun(host_ip,user_name,user_typ,key_id,authid):
     print '---line 112--- Socket create'
     s.connect((host, port))    
     #����������֤ʵ������Ҫ�����û������û����ͺ�key_id
-    admin_packet=adminPacket.AdminPacket(user_name,user_typ,key_id)
+    admin_packet=adminPacket.AdminPacket(user_name1,user_typ1,key_id1)
     #����socket������֤
-    admin_packet.admin(s,authid)
+    if admin_packet.admin(s,authid1)==1:
+       k=k+1
+        
     ack_key=admin_packet.get_sess_key()
     ack_key_id=admin_packet.get_sess_key_id()
-#    while True:
-        
-        
-#    qkmApply.qkmapply(s,ack_key,ack_key_id,user_name)
-#    qkmGet.qkmget(s,ack_key,ack_key_id,user_name) 
-    dianduidian.qkmapply(s,ack_key,ack_key_id,user_name)   
-  
-         
-def multiThread(attend_num,clientList):
-
-    threads = []    
-    #�����������̣߳������ȴ�
-    for i in range(attend_num-1):  # create all threads 
-        t = threading.Thread(target=clientRun,args=(Akm_HOST,clientList[i][0],clientList[i][1],clientList[i][2]))
-        threads.append(t)   
-    for i in range(attend_num-1):  # start all threads 
-        threads[i].start()
-##    
     
+#    qkm.getQkmKey(Qkm_HOST,user_name1,user_typ1,key_id1,authid1)#接入认证、获取量子密钥
 
+#    time.sleep(50)
+#    qkmApply.qkmapply(s,ack_key,ack_key_id,user_name) 
+#    if qkmGet.qkmget(s,ack_key,ack_key_id,user_name)==1:
+#       d=d+1   
+#   ' akm.obtAkmKey(Akm_HOST,user_name1, user_typ1,key_id1,akm.getAkmKey(Akm_HOST,user_name2,user_typ2,key_id2))'
+    
+#    key_id_list = akm.getAkmKey(Akm_HOST,user_name1,user_typ1,key_id1,authid1)
+    key_id_list = akm.getAkmKey(s,ack_key,ack_key_id,user_name1)
+#    key_id_list = [5, 151, 53, 42, 206, 212, 74, 56, 159, 126, 178, 159, 212, 46, 10, 33]
+    
+    
+#    if akm.obtAkmKey(s,ack_key,ack_key_id,user_name1,key_id_list)==1:
+#        d=d+1
+#    akm.obtAkmKey(s,ack_key,ack_key_id,user_name1,akm.getAkmKey(s,ack_key,ack_key_id,user_name1))
+    
 if __name__ == '__main__':
-#    attend_num=UserNum
-    while True : 
-        clientList=setUserInfo()         
-        admin_thread()
-#        time.sleep(0.5)
+#    attend_num=UserNum 
+#    clientList=setUserInfo() 
+    admin_thread()
+    print '----totalclient----',k
+    print '----totalget----',d
 
 
     

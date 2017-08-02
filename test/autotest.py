@@ -8,20 +8,21 @@ Project:执行全部用例
 import random
 import unittest
 from clientTest import ClientAES1
-from serverATest import qkmApply1
-from serverATest import qkmGet1
+from qkmATest import qkmApply1
+from qkmATest import qkmGet1
 from gensysATest import main
-from ApplicationKey import main1
-from serverATest import qkmApply2
-from serverATest import qkmGet2
+from akmATest import main1
+from qkmATest import qkmApply2
+from qkmATest import qkmGet2
 #import ClientAES1
 import MySQLdb
 from commonUntils import ExcelUntil
 from commonUntils import DBConnection
 
-from clientTest import ClientAES2
+from clientTest import ClientAES2 
 from clientTest import akmAccess
 import ConfigParser
+
 
 
 class autoTest(unittest.TestCase):   
@@ -111,14 +112,14 @@ class autoTest(unittest.TestCase):
         self.assertEqual( test.start(), 1)
         print '-------------------------------------------------------------qkm从中心密钥获取用例结束--------------------------------------------------------' 
 #
-#    def test_akmgetNotIntime(self):
-#        # make sure the shuffled sequence does not lose any elements 
-#        print '-----------------------------------------------------------Akm密钥获取非实时用例开始------------------------------------------------------' 
-#        global expect        
-#        test = main1.akmIntime()
-##        test.start()
-#        self.assertEqual( test.start(), 1)
-#        print '-----------------------------------------------------------Akm密钥获取非实时用例结束------------------------------------------------------' 
+    def test_akmgetNotIntime(self):
+        # make sure the shuffled sequence does not lose any elements 
+        print '-----------------------------------------------------------Akm密钥获取非实时用例开始------------------------------------------------------' 
+        global expect        
+        test = main1.akmIntime()
+#        test.start()
+        self.assertEqual( test.start(), 1)
+        print '-----------------------------------------------------------Akm密钥获取非实时用例结束------------------------------------------------------' 
         
     def tearDown(self):
         print '----------------------------------------------------------------AT用例结束------------------------------------------------------------'

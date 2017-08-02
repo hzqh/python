@@ -8,10 +8,10 @@ Project:执行qkm秘钥服务用例
 import random
 import unittest
 
-from serverATest import qkmApply1
-from serverATest import qkmGet1
-from serverATest import qkmApply2
-from serverATest import qkmGet2
+from qkmATest import qkmApply1
+from qkmATest import qkmGet1
+from qkmATest import qkmApply2
+from qkmATest import qkmGet2
 
 
 

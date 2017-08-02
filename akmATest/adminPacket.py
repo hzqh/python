@@ -1,14 +1,12 @@
 #!/usr/bin/python
 # -*- coding: utf8 -*-
 # This is for AES Encryption Algorithm
-import socket
-import sys #for exit
-import time
 import struct
 import hashlib
 import binascii
 import hmac
 import random
+import sys
 # import array
 from Crypto.Cipher import AES
 import string
@@ -62,30 +60,41 @@ pad = lambda s: s + (BS - len(s) % BS) * chr(BS - len(s) % BS)
 unpad = lambda s : s[0:-ord(s[-1])]
 
 class AdminPacket(object):
-    
-    def __init__(self):
+    #量子密钥、应用密钥的接入认证，相同，根据传入的userName,userTyp,key_id及socket接入认证
+    def __init__(self,userName,userTyp,key_id):
         #packet header constractor
         self.version=1
         self.encry_alg=1
-        self.key_id=[01,01,01,01,01,01,01,01,01,01,01,01,01,07,01,04]
+        self.key_id=key_id
         self.sess_key=''
         self.sess_key_id=''
-        self.userType_flag=1
+        self.userType_flag=userTyp
+        self.userName=userName
     
     def admin(self,s):
         req_id = random_int_list(0, 255, 2)                # Request ID 2字节
-#        print 'first request id : ', req_id       
-        user = 'client_qh001'                         # 用户名
-        userLen = len(user)                            # 用户名长度 10
-        psd = 'node_child'  
-                                  # 密码
+        print 'first request id : ', req_id       
+        user = self.userName                       # 用户名
+        userLen = len(user)
+        psd='node_child'                           # 用户名长度 10
+#        if(user.startswith('node_child')):
+#            psd='node_child'
+#        elif(user.startswith('node_parent')):
+#            psd='node_parent'
+#        elif(user.startswith('node_center')):
+#            psd='node_center'
+#        else:
+#            print 'uknown userName '
+            #sys.exit(1)
+        # 密码
         psdSHA256 = psd_sha256(psd)
         psdBin = [ord(x) for x in psdSHA256]
         psdLen = len(psdBin)                            # 密码长度
         
         body = [101] + req_id + [userLen, user, psdLen]
         
-        auth_id = [01] * 16              # 认证密钥ID 16字节
+#        auth_id = [01,01,01,01,01,01,01,01,01,01,01,01,07,00,01,8]           # 认证密钥ID 16字节
+        auth_id = [01,01,01,01,01,01,01,01,01,01,01,01,07,00,01,03]
         authKey = [01] * 32             # 认证密钥 32字节
         authKey_hmac256 = hmac_sha256(authKey, req_id)    # 认证密钥ID HMAC-SHA256方式加密
         
@@ -94,7 +103,7 @@ class AdminPacket(object):
         session_key = session[16:48]
         
         body_pack = struct.pack('@4B%dsB'%userLen, *body) + psdSHA256 + pack_bin(auth_id) + authKey_hmac256 + pack_bin(session)
-#        print '--- --  body_pack: ',len(body_pack)
+        print '--- --  body_pack: ',len(body_pack)
         # AES 加密
         Encryp_key = [01] * 32    # 加密密钥
         body_AES_pack = aes_encrypt(Encryp_key, body_pack)
@@ -108,29 +117,21 @@ class AdminPacket(object):
         
         version = 1
         Encryp_Alg = 1            # 加密方式
-#         Encryp_id = [01] * 16    # 加密密钥ID 16字节
-        Encryp_id = [01,01,01,01,01,01,01,01,01,01,01,01,01,07,01,04]
+        Encryp_id = self.key_id   # 加密密钥ID 16字节
         mesLen = len(body_AES_pack)
         head = [version, Encryp_Alg] + len2bit(mesLen)
         head_pack = struct.pack('@4B', *head) + pack_bin(Encryp_id) if Encryp_Alg == 1 else struct.pack('@4B', *head)
         
-#        print '---131---AES length: ', len(head_pack + body_AES_pack)
+        print '---131---AES length: ', len(head_pack + body_AES_pack)
         if Encryp_Alg == 1:
-#            print u'发送接入认证请求报文'
+            print u'发送接入认证请求报文'
             s.send(head_pack + body_AES_pack)           # AES加密
         else:
             s.send(head_pack + body_pack)               # 不加密
-        
-        # while True:
-        #     recvData = s.recv(BUFSIZE)
-        #     if not recvData:
-        #         break
-        #     if len(recvData) == 148 or len(recvData) == 8:
-        #         break
-        # print '---145---recive all data: ', recvData
+
         recvData = s.recv(BUFSIZE)
         # print '---145---recive all data: ',recvData
-#        print u'接收到的接入认证反馈报文：',len(recvData)
+        print u'接收到的接入认证反馈报文：',len(recvData)
         # # ------------------ 反馈报文信息Start -------------------- #
         if len(recvData):
             if Encryp_Alg == 1:
@@ -142,10 +143,10 @@ class AdminPacket(object):
                 recvHead = recvData[0:4]           # 不加密为[0:4]
                 recvBody = recvData[4:len(recvData)]
             recv_Body = unpack_list(recvBody)
-#            print u'接入认证反馈报文体：',recv_Body
+            print u'接入认证反馈报文体：',recv_Body
         
             recvBody_req_id = recv_Body[1:3]        # Request ID
-#            print u'接入认证反馈报文头-前四个：', recv_Body[0:4]
+            print u'接入认证反馈报文头-前四个：', recv_Body[0:4]
             
             if recv_Body[3] == 0:      # 成功
                 if self.userType_flag == 0:      # 内部设备
@@ -177,7 +178,7 @@ class AdminPacket(object):
                 ack_encry_key = listXor(session_key, recv_session_key)      # 加密密钥
                 self.sess_key_id=ack_encry_id
                 self.sess_key=ack_encry_key
-#                print u'协商会话密钥：',recv_session_key
+                print u'协商会话密钥：',recv_session_key
                 # 确认报文体
                 # recvBody_req_id = [10,10]
                 ackMesType = 103
@@ -190,19 +191,16 @@ class AdminPacket(object):
                 ack_encry_alg = 1       # 加密算法
                 if ack_encry_alg == 1:
                     ack_mesLen = len(ackBody_AES_pack)   # 确认报文长度
-#                    print 'confirm length: ',ack_mesLen
+                    print 'confirm length: ',ack_mesLen
                     ackHead = [1,ack_encry_alg] + len2bit(ack_mesLen) + ack_encry_id
                     ackHead_pack = pack_bin(ackHead)
-#                    print u'发送AES 加密接入认证缺人报文'
+                    print u'发送AES 加密接入认证反馈报文'
                     s.send(ackHead_pack + ackBody_AES_pack)
-#                    while True:
-#                    time.sleep(2)
-#                        print 'ddddddddd'
                 else:
                     ack_mesLen = len(ackBody_pack)
                     ackHead = [1,ack_encry_alg] + len2bit(ack_mesLen)
                     ackHead_pack =  pack_bin(ackHead)
-#                    print u'发送明文接入认证反馈报文'
+                    print u'发送明文接入认证反馈报文'
                     s.send(ackHead_pack + ackBody_pack)
                 # print ackHead_pack + ackBody_AES_pack
             elif recv_Body[3] == 1:

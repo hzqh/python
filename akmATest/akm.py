@@ -11,22 +11,22 @@ BUFSIZE=1024
 
 #应用密钥，根据传入的ip，username，user_typ,key_id，接入host，并申请应用密钥
 #def getAkmKey(host_ip,user_name,user_typ,key_id,authid2): 
-def getAkmKey(s,ack_key,ack_key_id,client_name): 
-#    host = host_ip
-#    BUFSIZE = 4096 
-#    port = 5530
-#    try: 
-#        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-#    except socket.error, msg:
-#        print '---line 110---Failed to create socket.Error code: '+ str(msg[0]) + ', Error message: ' + msg[1]
-#        sys.exit()
-#    print '---line 112--- Socket create'
-#    s.connect((host, port))    
-#    admin_packet=adminPacket.AdminPacket(user_name,user_typ,key_id)
-#    admin_packet.admin(s,authid2)
-#    ack_key=admin_packet.get_sess_key()
-#    ack_key_id=admin_packet.get_sess_key_id()
-#    print '******ack_key',ack_key
+def getAkmKey(host_ip,user_name,user_typ,key_id): 
+    host = host_ip
+    BUFSIZE = 4096 
+    port = 5530
+    try: 
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    except socket.error, msg:
+        print '---line 110---Failed to create socket.Error code: '+ str(msg[0]) + ', Error message: ' + msg[1]
+        sys.exit()
+    print '---line 112--- Socket create'
+    s.connect((host, port))    
+    admin_packet=adminPacket.AdminPacket(user_name,user_typ,key_id)
+    admin_packet.admin(s)
+    ack_key=admin_packet.get_sess_key()
+    ack_key_id=admin_packet.get_sess_key_id()
+    print '******ack_key',ack_key
     #time.sleep(60)
     #generate part   
     req_packet=akmReqPacket.ReqPacket()
@@ -49,8 +49,8 @@ def getAkmKey(s,ack_key,ack_key_id,client_name):
     req_automatic=0
     req_auto_rate=0
     # set attend information to variable
-    req_user_name=client_name
-    req_attend_num=2
+    req_user_name=user_name
+    req_attend_num=19
     req_attend_name_1='client_qh980'
     req_attend_name_2='client_qh981'
     req_attend_name_3='client_qh982'
@@ -199,22 +199,22 @@ def getAkmKey(s,ack_key,ack_key_id,client_name):
     s.close()
         
 #应用密钥，根据传入的ip，username，user_typ,key_id，接入host，并获取应用密钥
-def obtAkmKey(s,ack_key,ack_key_id,client_name,key_id_list): 
-#    host = host_ip
-#    BUFSIZE = 4096 
-#    port = 5530
-#    try:
-#        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-#    except socket.error, msg:
-#        print '---line 110---Failed to create socket.Error code: '+ str(msg[0]) + ', Error message: ' + msg[1]
-#        sys.exit()
-#    print '---line 112--- Socket create'
-#    s.connect((host, port))    
-#    admin_packet=adminPacket.AdminPacket(user_name,user_typ,key_id)
-#    admin_packet.admin(s)
-#    ack_key=admin_packet.get_sess_key()
-#    ack_key_id=admin_packet.get_sess_key_id()
-#    print '******ack_key',ack_key 
+def obtAkmKey(host_ip,user_name,user_typ,key_id,key_id_list): 
+    host = host_ip
+    BUFSIZE = 4096 
+    port = 5530
+    try:
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    except socket.error, msg:
+        print '---line 110---Failed to create socket.Error code: '+ str(msg[0]) + ', Error message: ' + msg[1]
+        sys.exit()
+    print '---line 112--- Socket create'
+    s.connect((host, port))    
+    admin_packet=adminPacket.AdminPacket(user_name,user_typ,key_id)
+    admin_packet.admin(s)
+    ack_key=admin_packet.get_sess_key()
+    ack_key_id=admin_packet.get_sess_key_id()
+    print '******ack_key',ack_key 
     #time.sleep(60)
     
     req_packet=akmReqPacket.ObtReqPacket()
@@ -230,7 +230,7 @@ def obtAkmKey(s,ack_key,ack_key_id,client_name,key_id_list):
     req_reqid=61
     req_key_num=1
     req_key_len=32
-    req_user_name=client_name
+    req_user_name=user_name
     print 'req_user_name:',req_user_name
     req_user_name_len=len(req_user_name)
     print 'req_user_name_len:',req_user_name_len
