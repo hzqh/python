@@ -14,6 +14,8 @@ from gensysATest import main
 from akmATest import main1
 from qkmATest import qkmApply2
 from qkmATest import qkmGet2
+from qkmATest import dianduidian1
+from qkmATest import dianduidian2
 #import ClientAES1
 import MySQLdb
 from commonUntils import ExcelUntil
@@ -122,8 +124,25 @@ class autoTest(unittest.TestCase):
         self.assertEqual( test.start(), 1)
         print '-----------------------------------------------------------Akm密钥获取非实时用例结束------------------------------------------------------' 
         
+    def dianduidian1(self):
+        # make sure the shuffled sequence does not lose any elements
+        print '--------------------------------------------------------------点对点从master获取秘钥用例开始------------------------------------------------------'       
+        test = dianduidian1.Qkmapply()
+#        test.start()
+        self.assertEqual( test.start(), 1)
+        print '--------------------------------------------------------------点对点从master获取秘钥用例结束-------------------------------------------------------' 
+       
+    def  dianduidian2(self):
+        # make sure the shuffled sequence does not lose any elements
+        print '--------------------------------------------------------------点对点从slave获取秘钥用例开始------------------------------------------------------'       
+        test = dianduidian2.Qkmapply()
+#        test.start()
+        self.assertEqual( test.start(), 1)
+        print '--------------------------------------------------------------点对点从slave获取秘钥用例结束-------------------------------------------------------' 
+        
     def tearDown(self):
         print '----------------------------------------------------------------AT用例结束------------------------------------------------------------'
+        
 
 
 if __name__ == '__main__':

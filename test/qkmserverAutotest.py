@@ -12,6 +12,7 @@ from qkmATest import qkmApply1
 from qkmATest import qkmGet1
 from qkmATest import qkmApply2
 from qkmATest import qkmGet2
+from qkmATest import dianduidian1
 
 
 
@@ -53,6 +54,15 @@ class autoTest(unittest.TestCase):
 #        test.start()
         self.assertEqual( test.start(), 1)
         print '-------------------------------------------------------------qkm从中心密钥获取用例结束--------------------------------------------------------' 
+        
+    def test_dianduidian1(self):
+        # make sure the shuffled sequence does not lose any elements
+        print '--------------------------------------------------------------qkm从中心密钥申请用例开始------------------------------------------------------'       
+        
+        test = dianduidian1.Qkmapply()
+#        test.start()
+        self.assertEqual( test.start(), 1)
+        print '--------------------------------------------------------------qkm从中心密钥申请用例开始-------------------------------------------------------' 
         
 #    def test_qkmdianduidian1(self):
 #        # make sure the shuffled sequence does not lose any elements

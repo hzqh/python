@@ -26,7 +26,7 @@ class Qkmapply():
     def start(self):
         cf = ConfigParser.ConfigParser()
         cf.read('D:/workplace/PyTest-frame/qtec.conf')   
-        host = eval(cf.get('master', 'host')) 
+        host = eval(cf.get('slave', 'host')) 
         BUFSIZE = eval(cf.get('node-child', 'BUFSIZE')) 
         port = eval(cf.get('node-child', 'port'))
         UserName = eval(cf.get('client1', 'UserName'))
