@@ -41,8 +41,7 @@ def main():
 #        hero.insert(sql)
         print sql
         i=i+1
-      
-       
+             
 if __name__=='__main__':    
     main()
         

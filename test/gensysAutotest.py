@@ -18,7 +18,6 @@ class autoTest(unittest.TestCase):
 
         
     def test_gensys(self):
-
         print '---------------------------------------------------------------生成同步用例开始------------------------------------------------------'     
         test = main.Gensys()
 #        test.start()

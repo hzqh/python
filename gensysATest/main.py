@@ -27,8 +27,8 @@ class Gensys():
              
         cf = ConfigParser.ConfigParser()
         cf.read('D:/workplace/PyTest-frame/qtec.conf')   
-#        host = eval(cf.get('node-child', 'host')) 
-        host = '192.168.94.202'
+        host = eval(cf.get('node-child', 'host')) 
+#        host = '192.168.94.202'
         BUFSIZE = eval(cf.get('node-child', 'BUFSIZE')) 
         port = eval(cf.get('node-child', 'port'))
         hostID = eval(cf.get('node-child', 'hostID'))
@@ -60,8 +60,7 @@ class Gensys():
         gen_packet.set_specified(1)
         gen_packet.set_local_user_id(UserID)
         gen_packet.set_remote_user_id(hostID)
-       # gen_packet.set_local_user_id(local_user_id)
-       # gen_packet.set_remote_user_id(remote_user_id
+
     
         gen_packet.set_sess_key(ack_key)
         gen_packet.set_sess_key_id(ack_key_id)
@@ -153,7 +152,6 @@ class Gensys():
         packet_sys=sys_packet.get_packet(1)
         s.send(packet_sys)
         s.settimeout(10)
-        
         try: 
             while True:
                 #print 'in while receive rc_gen_packet'
@@ -188,9 +186,7 @@ class Gensys():
             rc_sys_remote_user_id=rc_sysPacket.get_remote_user_id()
             print 'rc_sysPacket result-------------------',rc_sys_res
             print 'rc_sysPacket msg_typ',rc_sys_msg_typ
-            #print 'rc_sysPacket key_id_List',rc_sys_key_id_list
-            #print 'rc_sysPacket local peer id',rc_sys_local_user_id
-            #print 'rc_sysPacket remote peer id',rc_sys_remote_user_id
+
             if (cmp(rc_sys_key_id_list,gen_key_id_list) and rc_sys_msg_typ == 220 and  rc_sys_req_id == gen_packet.get_req_id() and rc_sys_key_typ == gen_packet.get_key_typ() \
                 and  rc_sys_key_num == gen_packet.get_key_num()):
                 print 'success'
@@ -214,10 +210,7 @@ class Gensys():
         else:
             dt = datetime.datetime.now()
             print dt.strftime("%Y%j%H%M%S"),'error unknow status %s is wrong...-------#'
-        
-    #and rc_sys_local_user_id == gen_packet.get_remote_user_id() and rc_sys_remote_user_id == \
-    
-    #cmp(rc_sys_local_user_id,gen_packet.get_local_user_id()) and cmp(rc_gen_remote_user_id,gen_packet.get_remote_user_id())
+
     
         
     

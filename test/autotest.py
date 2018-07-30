@@ -124,7 +124,7 @@ class autoTest(unittest.TestCase):
         self.assertEqual( test.start(), 1)
         print '-----------------------------------------------------------Akm密钥获取非实时用例结束------------------------------------------------------' 
         
-    def dianduidian1(self):
+    def test_dianduidian1(self):
         # make sure the shuffled sequence does not lose any elements
         print '--------------------------------------------------------------点对点从master获取秘钥用例开始------------------------------------------------------'       
         test = dianduidian1.Qkmapply()
@@ -132,7 +132,7 @@ class autoTest(unittest.TestCase):
         self.assertEqual( test.start(), 1)
         print '--------------------------------------------------------------点对点从master获取秘钥用例结束-------------------------------------------------------' 
        
-    def  dianduidian2(self):
+    def  test_dianduidian2(self):
         # make sure the shuffled sequence does not lose any elements
         print '--------------------------------------------------------------点对点从slave获取秘钥用例开始------------------------------------------------------'       
         test = dianduidian2.Qkmapply()
@@ -143,7 +143,6 @@ class autoTest(unittest.TestCase):
     def tearDown(self):
         print '----------------------------------------------------------------AT用例结束------------------------------------------------------------'
         
-
 
 if __name__ == '__main__':
     unittest.main()
